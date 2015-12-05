@@ -47,6 +47,8 @@ EventThread::EventThread(const sp<SurfaceFlinger>& flinger)
         mVSyncEvent[i].header.timestamp = 0;
         mVSyncEvent[i].vsync.count =  0;
     }
+
+    mUseSoftwareVSync = true;
 }
 
 void EventThread::onFirstRef() {
@@ -105,7 +107,9 @@ void EventThread::onScreenAcquired() {
     Mutex::Autolock _l(mLock);
     if (mUseSoftwareVSync) {
         // resume use of h/w vsync
-        mUseSoftwareVSync = false;
+        // krnlyng, we have no hw vsync in shmbuffer
+        //mUseSoftwareVSync = false;
+        mUseSoftwareVSync = true;
         mCondition.broadcast();
     }
 }
