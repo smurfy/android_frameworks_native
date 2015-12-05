@@ -57,6 +57,9 @@ EventThread::EventThread(const sp<VSyncSource>& src)
         mVSyncEvent[i].header.timestamp = 0;
         mVSyncEvent[i].vsync.count =  0;
     }
+
+    mUseSoftwareVSync = true;
+
     struct sigevent se;
     se.sigev_notify = SIGEV_THREAD;
     se.sigev_value.sival_ptr = this;
@@ -140,7 +143,9 @@ void EventThread::onScreenAcquired() {
     Mutex::Autolock _l(mLock);
     if (mUseSoftwareVSync) {
         // resume use of h/w vsync
-        mUseSoftwareVSync = false;
+        // krnlyng, we have no hw vsync in shmbuffer
+        //mUseSoftwareVSync = false;
+        mUseSoftwareVSync = true;
         mCondition.broadcast();
     }
 }
