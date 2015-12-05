@@ -116,7 +116,7 @@ HWComposer::HWComposer(
         // close FB HAL if we don't needed it.
         // FIXME: this is temporary until we're not forced to open FB HAL
         // before HWC.
-        framebuffer_close(mFbDev);
+        shmbuffer_close(mFbDev);
         mFbDev = NULL;
     }
 
@@ -221,7 +221,7 @@ HWComposer::~HWComposer() {
         hwc_close_1(mHwc);
     }
     if (mFbDev) {
-        framebuffer_close(mFbDev);
+        shmbuffer_close(mFbDev);
     }
     delete mCBContext;
 }
@@ -229,6 +229,8 @@ HWComposer::~HWComposer() {
 // Load and prepare the hardware composer module.  Sets mHwc.
 void HWComposer::loadHwcModule()
 {
+    /* hwcomposer is already used by sailfishos, we use shmbuffer module instead */
+    return;
     hw_module_t const* module;
 
     if (hw_get_module(HWC_HARDWARE_MODULE_ID, &module) != 0) {
@@ -259,13 +261,13 @@ int HWComposer::loadFbHalModule()
 {
     hw_module_t const* module;
 
-    int err = hw_get_module(GRALLOC_HARDWARE_MODULE_ID, &module);
+    int err = hw_get_module(SHMBUFFER_HARDWARE_MODULE_ID, &module);
     if (err != 0) {
-        ALOGE("%s module not found", GRALLOC_HARDWARE_MODULE_ID);
+        ALOGE("%s module not found", SHMBUFFER_HARDWARE_MODULE_ID);
         return err;
     }
 
-    return framebuffer_open(module, &mFbDev);
+    return shmbuffer_open(module, &mFbDev);
 }
 
 status_t HWComposer::initCheck() const {
