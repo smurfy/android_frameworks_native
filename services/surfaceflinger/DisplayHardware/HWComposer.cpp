@@ -913,7 +913,7 @@ int HWComposer::fbPost(int32_t id,
         if (acquireFence != NULL) {
             acquireFence->waitForever(1000, "HWComposer::fbPost");
         }
-        return mFbDev->post(mFbDev, buffer->handle);
+        return mFbDev->post(mFbDev, buffer->handle, buffer->getWidth(), buffer->getHeight(), buffer->getStride(), buffer->getPixelFormat());
     }
 }
 
