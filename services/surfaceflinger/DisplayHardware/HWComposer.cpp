@@ -939,7 +939,7 @@ int HWComposer::fbPost(int32_t id,
         return setFramebufferTarget(id, acquireFence, buffer);
     } else {
         acquireFence->waitForever("HWComposer::fbPost");
-        return mFbDev->post(mFbDev, buffer->handle);
+        return mFbDev->post(mFbDev, buffer->handle, buffer->getWidth(), buffer->getHeight(), buffer->getStride(), buffer->getPixelFormat());
     }
 }
 
