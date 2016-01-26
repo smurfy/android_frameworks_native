@@ -35,6 +35,7 @@
 
 #include <hardware/hardware.h>
 #include <hardware/hwcomposer.h>
+#include <hardware/sb.h>
 
 #include <android/configuration.h>
 
