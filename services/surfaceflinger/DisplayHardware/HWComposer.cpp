@@ -36,6 +36,7 @@
 
 #include <hardware/hardware.h>
 #include <hardware/hwcomposer.h>
+#include <hardware/sb.h>
 
 #include <cutils/log.h>
 #include <cutils/properties.h>
