@@ -66,17 +66,17 @@ SensorDevice::SensorDevice()
     :  mSensorDevice(0),
        mSensorModule(0)
 {
-    status_t err = -1;/*hw_get_module(SENSORS_HARDWARE_MODULE_ID,
-            (hw_module_t const**)&mSensorModule);*/
+    status_t err = hw_get_module(SFDROID_SENSORS_HARDWARE_MODULE_ID,
+            (hw_module_t const**)&mSensorModule);
 
     ALOGE_IF(err, "couldn't load %s module (%s)",
-            SENSORS_HARDWARE_MODULE_ID, strerror(-err));
+            SFDROID_SENSORS_HARDWARE_MODULE_ID, strerror(-err));
 
     if (mSensorModule) {
         err = sensors_open(&mSensorModule->common, &mSensorDevice);
 
         ALOGE_IF(err, "couldn't open device for module %s (%s)",
-                SENSORS_HARDWARE_MODULE_ID, strerror(-err));
+                SFDROID_SENSORS_HARDWARE_MODULE_ID, strerror(-err));
 
         if (mSensorDevice) {
             sensor_t const* list;
